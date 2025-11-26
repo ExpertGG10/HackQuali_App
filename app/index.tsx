@@ -1,12 +1,63 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAuth } from '../src/contexts/AuthContext';
+import { colors } from '../src/styles/authStyles';
 
 export default function Home() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  const [showDebug, setShowDebug] = useState(false);
+  const [debugTaps, setDebugTaps] = useState(0);
+
+  useEffect(() => {
+    if (!loading) {
+      if (user) {
+        // Se usuário está autenticado, redirecionar baseado no role
+        if (user.role === 'resident') {
+          router.replace('/(resident)/(tabs)/home');
+        } else if (user.role === 'contractor') {
+          router.replace('/(contractor)/(tabs)/dashboard');
+        } else {
+          router.replace('/(auth)/login');
+        }
+      } else {
+        // Sem autenticação, ir para login
+        router.replace('/(auth)/login');
+      }
+    }
+  }, [user, loading]);
+
+  // Easter egg: tap 5 times to access debug
+  const handlePress = () => {
+    const newTaps = debugTaps + 1;
+    setDebugTaps(newTaps);
+    if (newTaps >= 5) {
+      setShowDebug(true);
+      setDebugTaps(0);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bem-vindo ao HackQuali App 🚀</Text>
-      <Text style={styles.subtitle}>Acompanhe as assistências do seu projeto!</Text>
-    </View>
+    <TouchableOpacity 
+      onPress={handlePress}
+      activeOpacity={1}
+      style={{ flex: 1 }}
+    >
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.white }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        {showDebug && (
+          <View style={{ marginTop: 20 }}>
+            <TouchableOpacity 
+              onPress={() => router.push('/debug')}
+              style={[styles.debugButton, { backgroundColor: colors.primary }]}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Acessar Debug</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -26,5 +77,11 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: '#555',
+  },
+  debugButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 10,
   },
 });
