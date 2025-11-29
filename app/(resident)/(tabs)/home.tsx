@@ -100,12 +100,12 @@ export default function ResidentHomeScreen() {
         <View style={[
             styles.card,
             {
-              borderColor: colors.secondary,
+              borderColor: colors.processing,
               borderWidth: 1.5,
             },
           ]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <FontAwesome name="spinner" size={20} color={colors.secondary} />
+            <FontAwesome name="spinner" size={20} color={colors.processing} />
             <Text style={{ marginLeft: 12, fontSize: 14, color: colors.textSecondary }}>
               Solicitações Pendentes
             </Text>

@@ -4,6 +4,7 @@ export const colors = {
   primary: '#0066CC',
   secondary: '#ff9625ff',
   danger: '#FF3333',
+  processing: '#f04646ff',
   warning: '#f2da04ff',
   success: '#00CC66',
   background: '#F5F7FA',
