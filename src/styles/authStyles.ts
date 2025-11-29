@@ -4,7 +4,7 @@ export const colors = {
   primary: '#0066CC',
   secondary: '#ff9625ff',
   danger: '#FF3333',
-  warning: '#e7ff4dff',
+  warning: '#f2da04ff',
   success: '#00CC66',
   background: '#F5F7FA',
   text: '#1A1A1A',
@@ -17,8 +17,9 @@ export const styles = StyleSheet.create({
   // Auth styles
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-  },
+    backgroundColor: colors.white,
+},
+
   // usado quando a tela está dentro de um ImageBackground
   background: {
     flex: 1,
